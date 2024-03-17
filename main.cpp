@@ -107,7 +107,7 @@ public:
             this->l.push_back(p1);
         }
     }
-    Prim(std::vector<int> p1,std::vector<int> p2){
+    Prim(const std::vector<int> &p1,const std::vector<int> &p2){
         prim=0;
         for (int i = 0,j = 0; j + i < p1.size() + p2.size();) {
             if(p1[i]<p2[j==p2.size()?j-1:j] && i<p1.size())
@@ -130,7 +130,10 @@ public:
     inline void ha(){
         prim=1;
     }
+    Prim operator+(const Prim &p) const{
+        Prim uj(,p);
 
+    }
     int operator==(const Prim &p1) const{
         if(bs(p1.l[0] - this->l[0])!=1)
             return 0;
@@ -146,9 +149,6 @@ public:
         return 1;
     }
 };
-
-std::vector<std::vector<Prim>> pt;
-std::vector<Prim> mp;
 
 void rW(std::string& s) {
     s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
@@ -179,7 +179,6 @@ void lep(){
 void init(std::ifstream &in){
     std::string s;
     in >> n;
-
 
     ve = new char[n];
     for (int i = 0; i < n; ++i) ve[i]=0;
@@ -220,13 +219,25 @@ int joe(int p1,int p2){
 int joe(const Prim &p1,const Prim &p2){
     return p1==p2;
 }
+std::vector<Prim> init_pt(const std::vector<int> &v){
+    std::vector<Prim> t;
+    for (int i = 0; i < v.size(); ++i) {
+        t.push_back(v[i]);
+    }
+    return t;
+}
 
 std::string qm(const std::vector<int> &v){
-    std::vector<Prim> tp;
-    for (int i = 0; i < v.size(); ++i) {
-        tp.push_back(v[i]);
+    std::vector<std::vector<Prim>> pt= {init_pt(v)};
+    for (int k = 0; k < 20; ++k) {
+        std::vector<Prim> t={};
+        for (int i = 0; i < pt[k].size(); ++i) {
+            for (int j = i; j < pt[k].size(); ++j) {
+                if (joe(pt[k][i], pt[k][j]));
+
+            }
+        }
     }
-    pt.push_back(tp);
     return "";
 }
 
@@ -248,8 +259,8 @@ int main(int argv,char *arkc[]) {
         std::cerr << e.what();
         exit(1);
     }
-    //std::string d=qm(dt);
-    //std::string k=qm(kt);
+    std::string d=qm(dt);
+    std::string k=qm(kt);
 
 
     return 0;
